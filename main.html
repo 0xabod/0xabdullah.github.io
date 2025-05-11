@@ -1,478 +1,88 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>0xAbdullah | خبير أمن سيبراني</title>
-    <style>
-        /* ===== الأنماط الأساسية ===== */
-        :root {
-            --primary-color: #0f0; /* أخضر */
-            --secondary-color: #00b7ff; /* أزرق فاتح */
-            --bg-color: #0a0a0a; /* أسود */
-            --text-color: #f0f0f0; /* أبيض فاتح */
-            --accent-color: #ff3a3a; /* أحمر للتحذيرات */
-        }
-
-        @font-face {
-            font-family: 'HackerFont';
-            src: url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap');
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Cairo', 'HackerFont', monospace;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Cairo', sans-serif;
-            line-height: 1.6;
-            overflow-x: hidden;
-            direction: rtl;
-        }
-
-        /* ===== الخلفية المتحركة ===== */
-        .matrix-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.15;
-            overflow: hidden;
-        }
-
-        .matrix-rain {
-            color: var(--primary-color);
-            position: absolute;
-            font-size: 20px;
-            filter: blur(1px);
-            text-shadow: 0 0 5px var(--primary-color);
-        }
-
-        /* ===== شريط التنقل ===== */
-        header {
-            background-color: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
-            padding: 1rem 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 100;
-            border-bottom: 1px solid var(--primary-color);
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--primary-color);
-        }
-
-        .logo::before {
-            content: ">";
-            margin-left: 0.5rem;
-            animation: blink 1s infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-        }
-
-        .nav-links li {
-            margin: 0 1rem;
-        }
-
-        .nav-links a {
-            color: var(--text-color);
-            text-decoration: none;
-            font-size: 1rem;
-            position: relative;
-            padding: 0.5rem 0;
-            transition: all 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: var(--secondary-color);
-        }
-
-        .nav-links a::after {
-            content: "";
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: 0;
-            right: 0;
-            background-color: var(--secondary-color);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        /* ===== قسم الترحيب ===== */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 0 2rem;
-            position: relative;
-            margin-top: 4rem;
-        }
-
-        .hero-content {
-            max-width: 800px;
-            animation: fadeIn 1s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            color: var(--primary-color);
-            text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            line-height: 1.8;
-        }
-
-        .typewriter {
-            overflow: hidden;
-            white-space: nowrap;
-            margin: 0 auto;
-            letter-spacing: 2px;
-            animation: typing 3.5s steps(40, end);
-        }
-
-        @keyframes typing {
-            from { width: 0 }
-            to { width: 100% }
-        }
-
-        .cta-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .btn {
-            padding: 0.8rem 1.8rem;
-            border: 2px solid var(--primary-color);
-            background-color: transparent;
-            color: var(--primary-color);
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .btn:hover {
-            color: var(--bg-color);
-        }
-
-        .btn::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 0;
-            height: 100%;
-            background-color: var(--primary-color);
-            transition: width 0.3s ease;
-            z-index: -1;
-        }
-
-        .btn:hover::before {
-            width: 100%;
-            right: auto;
-            left: 0;
-        }
-
-        .btn-secondary {
-            border-color: var(--secondary-color);
-            color: var(--secondary-color);
-        }
-
-        .btn-secondary::before {
-            background-color: var(--secondary-color);
-        }
-
-        /* ===== قسم المهارات ===== */
-        .skills {
-            padding: 6rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            text-align: center;
-            margin-bottom: 3rem;
-            color: var(--secondary-color);
-            position: relative;
-        }
-
-        .section-title::after {
-            content: "";
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 3px;
-            background-color: var(--primary-color);
-        }
-
-        .skills-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-
-        .skill-card {
-            background-color: rgba(0, 0, 0, 0.5);
-            border: 1px solid var(--primary-color);
-            padding: 2rem;
-            border-radius: 5px;
-            text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .skill-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 20px rgba(0, 255, 0, 0.2);
-        }
-
-        .skill-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--primary-color);
-        }
-
-        .skill-card p {
-            font-size: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        /* ===== الرسائل المتحركة ===== */
-        .terminal-text {
-            font-family: 'Fira Code', monospace;
-            color: var(--primary-color);
-            margin: 2rem 0;
-            padding: 1rem;
-            background-color: rgba(0, 0, 0, 0.7);
-            border-radius: 5px;
-            border-left: 3px solid var(--primary-color);
-            animation: terminalType 2s steps(60, end);
-        }
-
-        @keyframes terminalType {
-            from { width: 0 }
-            to { width: 100% }
-        }
-
-        /* ===== تذييل الصفحة ===== */
-        footer {
-            background-color: rgba(0, 0, 0, 0.9);
-            padding: 2rem;
-            text-align: center;
-            border-top: 1px solid var(--primary-color);
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 1rem;
-            gap: 1rem;
-        }
-
-        .social-links a {
-            color: var(--text-color);
-            font-size: 1.5rem;
-            transition: color 0.3s ease;
-        }
-
-        .social-links a:hover {
-            color: var(--primary-color);
-        }
-
-        .copyright {
-            font-size: 0.9rem;
-            color: #777;
-        }
-
-        /* ===== تصميم متجاوب ===== */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .skills-container {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    <title>0xAbdullah | Cybersecurity Expert</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Poppins:wght@300;400;700&family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- خلفية المصفوفة المتحركة -->
+    <!-- Matrix Background -->
     <div class="matrix-bg" id="matrix-canvas"></div>
 
-    <!-- شريط التنقل -->
+    <!-- Navigation -->
     <header>
         <nav>
             <div class="logo">0xAbdullah</div>
-            <ul class="nav-links">
-                <li><a href="#home">الرئيسية</a></li>
-                <li><a href="#about">من أنا</a></li>
-                <li><a href="#services">الخدمات</a></li>
-                <li><a href="#projects">المشاريع</a></li>
-                <li><a href="#blog">المدونة</a></li>
-                <li><a href="#contact">اتصل بي</a></li>
-            </ul>
+            <div class="nav-container">
+                <ul class="nav-links" id="nav-menu">
+                    <li><a href="index.html" data-en="Home" data-ar="الرئيسية">Home</a></li>
+                    <li><a href="about.html" data-en="About" data-ar="من أنا">About</a></li>
+                    <li><a href="services.html" data-en="Services" data-ar="الخدمات">Services</a></li>
+                    <li><a href="projects.html" data-en="Projects" data-ar="المشاريع">Projects</a></li>
+                    <li><a href="blog.html" data-en="Blog" data-ar="المدونة">Blog</a></li>
+                    <li><a href="contact.html" data-en="Contact" data-ar="اتصل بي">Contact</a></li>
+                </ul>
+                <div class="lang-toggle" id="lang-toggle">
+                    <span class="lang-en active">EN</span>
+                    <span>/</span>
+                    <span class="lang-ar">AR</span>
+                </div>
+                <button class="mobile-menu-btn" id="mobile-menu-btn">☰</button>
+            </div>
         </nav>
     </header>
 
-    <!-- قسم الترحيب -->
+    <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="hero-content">
-            <h1 class="typewriter">مرحباً بك في عالم الأمن السيبراني</h1>
-            <p class="terminal-text">$> أنا <span style="color: #00b7ff;">0xAbdullah</span>, خبير أمن سيبراني ومختبر اختراق أخلاقي. أساعد الشركات على حماية أنظمتها من الهجمات الإلكترونية وأكشف الثغرات قبل استغلالها.</p>
+            <h1 class="typewriter" data-en="Welcome to the World of Cybersecurity" data-ar="مرحباً بك في عالم الأمن السيبراني">Welcome to the World of Cybersecurity</h1>
+            <p class="terminal-text" data-en="$> I'm <span style='color: #00b7ff;'>0xAbdullah</span>, a cybersecurity expert and ethical hacker. I help companies protect their systems from cyber attacks and discover vulnerabilities before they can be exploited." data-ar="$> أنا <span style='color: #00b7ff;'>0xAbdullah</span>, خبير أمن سيبراني ومختبر اختراق أخلاقي. أساعد الشركات على حماية أنظمتها من الهجمات الإلكترونية وأكشف الثغرات قبل استغلالها.">$> I'm <span style="color: #00b7ff;">0xAbdullah</span>, a cybersecurity expert and ethical hacker. I help companies protect their systems from cyber attacks and discover vulnerabilities before they can be exploited.</p>
             <div class="cta-buttons">
-                <a href="#services" class="btn">الخدمات</a>
-                <a href="#contact" class="btn btn-secondary">اتصل بي</a>
+                <a href="services.html" class="btn" data-en="Services" data-ar="الخدمات">Services</a>
+                <a href="contact.html" class="btn btn-secondary" data-en="Contact Me" data-ar="اتصل بي">Contact Me</a>
             </div>
         </div>
     </section>
 
-    <!-- قسم المهارات -->
+    <!-- Skills Section -->
     <section class="skills" id="services">
-        <h2 class="section-title">مهاراتي</h2>
+        <h2 class="section-title" data-en="My Skills" data-ar="مهاراتي">My Skills</h2>
         <div class="skills-container">
             <div class="skill-card">
-                <h3>اختبار الاختراق</h3>
-                <p>اختبار أنظمتك بطرق محترفة لاكتشاف الثغرات الأمنية قبل استغلالها من قبل المخترقين.</p>
+                <h3 data-en="Penetration Testing" data-ar="اختبار الاختراق">Penetration Testing</h3>
+                <p data-en="Testing your systems professionally to discover security vulnerabilities before they are exploited by hackers." data-ar="اختبار أنظمتك بطرق محترفة لاكتشاف الثغرات الأمنية قبل استغلالها من قبل المخترقين.">Testing your systems professionally to discover security vulnerabilities before they are exploited by hackers.</p>
             </div>
             <div class="skill-card">
-                <h3>الهندسة العكسية</h3>
-                <p>تحليل البرمجيات والأكواد الضارة لفهم آلية عملها وتطوير حلول دفاعية.</p>
+                <h3 data-en="Reverse Engineering" data-ar="الهندسة العكسية">Reverse Engineering</h3>
+                <p data-en="Analyzing malware and code to understand how they work and develop defensive solutions." data-ar="تحليل البرمجيات والأكواد الضارة لفهم آلية عملها وتطوير حلول دفاعية.">Analyzing malware and code to understand how they work and develop defensive solutions.</p>
             </div>
             <div class="skill-card">
-                <h3>أمن التطبيقات</h3>
-                <p>تقييم وتعزيز أمن تطبيقاتك على الويب والموبايل ضد الهجمات المختلفة.</p>
+                <h3 data-en="Application Security" data-ar="أمن التطبيقات">Application Security</h3>
+                <p data-en="Evaluating and enhancing the security of your web and mobile applications against various attacks." data-ar="تقييم وتعزيز أمن تطبيقاتك على الويب والموبايل ضد الهجمات المختلفة.">Evaluating and enhancing the security of your web and mobile applications against various attacks.</p>
             </div>
             <div class="skill-card">
-                <h3>تحليل الشبكات</h3>
-                <p>مراقبة وتحليل حركة المرور الشبكية للكشف عن الأنشطة المشبوهة والاختراقات.</p>
+                <h3 data-en="Network Analysis" data-ar="تحليل الشبكات">Network Analysis</h3>
+                <p data-en="Monitoring and analyzing network traffic to detect suspicious activities and breaches." data-ar="مراقبة وتحليل حركة المرور الشبكية للكشف عن الأنشطة المشبوهة والاختراقات.">Monitoring and analyzing network traffic to detect suspicious activities and breaches.</p>
             </div>
         </div>
     </section>
 
-    <!-- تذييل الصفحة -->
+    <!-- Footer -->
     <footer>
         <div class="social-links">
             <a href="#" title="GitHub"><i class="icon-github">GitHub</i></a>
             <a href="#" title="Twitter"><i class="icon-twitter">Twitter</i></a>
             <a href="#" title="LinkedIn"><i class="icon-linkedin">LinkedIn</i></a>
         </div>
-        <div class="copyright">
-            &copy; 2025 جميع الحقوق محفوظة لـ 0xAbdullah
+        <div class="copyright" data-en="&copy; 2025 All Rights Reserved to 0xAbdullah" data-ar="&copy; 2025 جميع الحقوق محفوظة لـ 0xAbdullah">
+            &copy; 2025 All Rights Reserved to 0xAbdullah
         </div>
     </footer>
 
-    <!-- سكريبت الخلفية المتحركة -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const canvas = document.getElementById('matrix-canvas');
-            
-            // إنشاء خلفية المصفوفة المتحركة
-            function createMatrixBackground() {
-                const width = window.innerWidth;
-                const height = window.innerHeight;
-                const rainDrops = 50; // عدد الأعمدة المتساقطة
-                
-                for (let i = 0; i < rainDrops; i++) {
-                    const drop = document.createElement('div');
-                    drop.className = 'matrix-rain';
-                    drop.style.left = `${Math.random() * width}px`;
-                    drop.style.top = `${Math.random() * height}px`;
-                    drop.style.animationDelay = `${Math.random() * 5}s`;
-                    
-                    // إنشاء محتوى عشوائي من الأحرف والأرقام
-                    const characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*()';
-                    let text = '';
-                    for (let j = 0; j < Math.floor(Math.random() * 15) + 5; j++) {
-                        text += characters.charAt(Math.floor(Math.random() * characters.length));
-                    }
-                    drop.textContent = text;
-                    
-                    // إضافة الحركة
-                    drop.style.animation = `fall ${Math.random() * 10 + 5}s linear infinite`;
-                    
-                    // إضافة العنصر إلى الخلفية
-                    canvas.appendChild(drop);
-                }
-            }
-            
-            // إنشاء حركة التساقط للأحرف
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes fall {
-                    0% { transform: translateY(-100px); opacity: 0; }
-                    10% { opacity: 1; }
-                    90% { opacity: 1; }
-                    100% { transform: translateY(${window.innerHeight + 100}px); opacity: 0; }
-                }
-            `;
-            document.head.appendChild(style);
-            
-            createMatrixBackground();
-            
-            // إعادة إنشاء الخلفية عند تغيير حجم النافذة
-            window.addEventListener('resize', function() {
-                canvas.innerHTML = '';
-                createMatrixBackground();
-            });
-        });
-    </script>
+    <!-- Scripts -->
+    <script src="js/matrix.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
